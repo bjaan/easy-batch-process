@@ -1,13 +1,13 @@
 @echo off
-setlocal EnableDelayedExpansion
+setlocal EnableExtensions EnableDelayedExpansion
 
 if "%~1" == "" goto usage
 if "%~2" == "" goto usage
 if "%~3" == "" goto usage
 if "%~4" == "" goto usage
 
-set folder_to_search=%~dp1
-set file_types=%2
+set folder_to_search=%~f1
+set file_types=%~2
 set output_path=%~f3
 set template_command=%~4
 
@@ -15,37 +15,52 @@ for /L %%n in (1 1 500) do if "!output_path:~%%n,1!" neq "" set /a "output_path_
 
 set /a ID=1
 
-FOR /f "delims=" %%f IN ('dir /b /s "%folder_to_search%\%file_types%"') DO (
-    set fullpath=%%~ff
-	set folder=%%~dpf
-	set FileName[!ID!]="!fullpath!"
-	set FilePath[!ID!]="!folder!"
-	set OutputName[!ID!]="%output_path%\!fullpath:~%output_path_len%!"
-	set OutputPath[!ID!]="%output_path%\!folder:~%output_path_len%!"
-    set /a ID+=1
+title Searching...
+
+:processtypes
+FOR /f "tokens=1* delims=;" %%a IN ("%file_types%") DO IF "%%a" NEQ "" (
+  SET file_types=%%b
+  CALL :processtype %%a
 )
 
+IF "%file_types%" NEQ "" goto :processtypes
+
+goto processfiles
+
+:processtype
+FOR /f "delims=" %%f IN ('dir /b /s "%folder_to_search%\%1"') DO (
+  set fullpath=%%~ff
+  set folder=%%~dpf
+  set FileName[!ID!]="!fullpath!"
+  set FilePath[!ID!]="!folder!"
+  set OutputName[!ID!]="%output_path%\!fullpath:~%output_path_len%!"
+  set OutputPath[!ID!]="%output_path%\!folder:~%output_path_len%!"
+  set /a ID+=1
+)
+goto:eof
+
+:processfiles
+
 set /a ID-=1
-	
+
 ECHO Total files found : !ID!
 
 FOR /L %%n IN (1 1 !ID!) DO (
-	echo - %%n !FileName[%%n]!
-	echo 
+  echo - %%n !FileName[%%n]!
 )
 
 FOR /L %%n IN (1 1 !ID!) DO (
-	echo Processing %%n of !ID!: !FileName[%%n]!
-	title Processing %%n of !ID!: !FileName[%%n]!
-	set cmd=!template_command!
-	call set "cmd=%%cmd:[IN]=!FileName[%%n]!%%"
-	call set "cmd=%%cmd:[INPATH]=!FilePath[%%n]!%%"
-	call set "cmd=%%cmd:[OUT]=!OutputName[%%n]!%%"
-	call set "cmd=%%cmd:[OUTPATH]=!OutputName[%%n]!%%"
-	echo Command: !cmd!
-	call set "output_path=!OutputPath[%%n]!"
-	if not exist %output_path% mkdir !output_path!
-	call !cmd!
+  echo Processing %%n of !ID!: !FileName[%%n]!
+  title Processing %%n of !ID!: !FileName[%%n]!
+  set cmd=!template_command!
+  call set "cmd=%%cmd:[IN]=!FileName[%%n]!%%"
+  call set "cmd=%%cmd:[INPATH]=!FilePath[%%n]!%%"
+  call set "cmd=%%cmd:[OUT]=!OutputName[%%n]!%%"
+  call set "cmd=%%cmd:[OUTPATH]=!OutputName[%%n]!%%"
+  echo Command: !cmd!
+  call set "output_folder=!OutputPath[%%n]!"
+  if not exist !output_folder! mkdir !output_folder!
+  call !cmd!
 )
 
 title Finished.

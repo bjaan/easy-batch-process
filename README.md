@@ -2,13 +2,13 @@
 
 ## Introduction ##
 
-Run a command against a set of files by type, which are searched recursively in a folder of your choice.
+Run a command against a set of files filter by type, which are searched recursively in a folder of your choice.
 
 It calculates the relative output folder path and the output file folder is automatically created.
 
-example: re-encode a folder of Matroska video files for all seasons of the fictional The Night Warriors show into HEVC using FFMPEG:
+Example: re-encode a folder of Matroska video files for all seasons of the fictional The Night Warriors show into HEVC using FFMPEG:
 
-`easybatchprocess.bat C:\Temp\The Night Warriors *.mkv C:\Temp\Output "C:\ffmpeg\bin\ffmpeg.exe -i [IN] -map 0 -c copy -c:v libx265 -crf 28 [OUT]"`
+`easybatchprocess C:\Temp\The Night Warriors *.mkv C:\Temp\Output "C:\ffmpeg\bin\ffmpeg.exe -i [IN] -map 0 -c copy -c:v libx265 -crf 28 [OUT]"`
 
 It will generate the following command and execute them:
 
@@ -23,6 +23,9 @@ C:\ffmpeg\bin\ffmpeg.exe -i C:\Temp\The Night Warriors\Season 2\TNW-S02E02-Pendu
 ...
 etc.
 ```
+
+This more elaborate example will copy all of the currently logged user picture files to a USB-drive located on the E:\ drive:
+`easybatchprocess %USERPROFILE% "*.jpg;*.png;*.bmp;*.jpeg" E:\ "copy [IN] [OUTPATH]"`
 
 ## Full usage ##
 
