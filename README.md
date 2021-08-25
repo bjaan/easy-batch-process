@@ -27,6 +27,9 @@ etc.
 This more elaborate example will copy all of the currently logged user picture files to a USB-drive located on the E:\ drive:
 `easybatchprocess %USERPROFILE% "*.jpg;*.png;*.bmp;*.jpeg" E:\ "copy [IN] [OUTPATH]"`
 
+This other example will copy the source files that are missing in the folder of processed files, with the same names, to another folder to allow processing of missing files separately (when Video2X failed for a fraction of the frames to process the failed ones afterwards - `cmd.exe /c` was still needed due to a limitation in the batch file processor which cannot handle IF / FOR / REM in a CALL command):
+`easybatchprocess "C:\Temp\original" *.png "C:\Temp\missing" "cmd.exe /c if not exist ""C:\Temp\processed\[INFILE]"" copy [IN] [OUT]"`
+
 ## Full usage ##
 
 ```
@@ -40,5 +43,6 @@ easybatchprocess.bat folder_to_search file_types output_path command_to_run
              [OUT] fully qualifed output file: output_path + relative path to the folder_to_search + filename: e.g. "C:\Temp\Output\Season1\video1.mkv"
              [INPATH] absolute path where the file is found, the full path where the file is found: e.g. C:\Temp\Input\Season1\
              [OUTPATH] path where the output file created: output_path + relative path to the folder_to_search: e.g.  C:\Temp\Output\Season1\
+             [INFILE] file name found: e.g. video1.mkv
 ```
 
