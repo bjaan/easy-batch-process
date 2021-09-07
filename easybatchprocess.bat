@@ -22,6 +22,7 @@ set /a "folder_to_search_len=%folder_to_search_len%+1"
 set /a ID=1
 
 echo Searching...
+title Searching...
 
 :processtypes
 FOR /f "tokens=1* delims=;" %%a IN ("%file_types%") DO IF "%%a" NEQ "" (
@@ -58,6 +59,7 @@ FOR /f "tokens=1* delims=;" %%a IN ("%file_types_2%") DO IF "%%a" NEQ "" (
 IF "%file_types_2%" NEQ "" goto :processfiletypes
 
 echo Finished.
+title Finished.
 goto end
 
 :processfiletype
@@ -69,7 +71,6 @@ FOR /f "delims=" %%f IN ('dir /b /s "%folder_to_search%\%1"') DO (
   set OutputName="%output_path%\!fullpath:~%folder_to_search_len%!"
   set OutputPath="%output_path%\!folder:~%folder_to_search_len%!"
   set FileNameOnly=%%~nxf
-  echo Processing !C! of !ID!: !fullpath:~%folder_to_search_len%!
   title Processing !C! of !ID!: !fullpath:~%folder_to_search_len%!
   set cmd=!template_command!
   call set "cmd=%%cmd:[IN]=!FileName!%%"
