@@ -10,7 +10,7 @@ Example: re-encode a folder of Matroska video files for all seasons of the ficti
 
 `easybatchprocess C:\Temp\The Night Warriors *.mkv C:\Temp\Output "C:\ffmpeg\bin\ffmpeg.exe -i [IN] -map 0 -c copy -c:v libx265 -crf 28 [OUT]"`
 
-It will generate the following command and execute them:
+It will generate the following commands and execute them:
 
 ```
 mkdir C:\Temp\Output\Season 1"
@@ -24,10 +24,12 @@ C:\ffmpeg\bin\ffmpeg.exe -i C:\Temp\The Night Warriors\Season 2\TNW-S02E02-Pendu
 etc.
 ```
 
-This more elaborate example will copy all of the currently logged user picture files to a USB-drive located on the E:\ drive:
+This more elaborate example will copy all of the currently logged user's picture files to a USB-drive located on the E:\ drive:
+
 `easybatchprocess %USERPROFILE% "*.jpg;*.png;*.bmp;*.jpeg" E:\ "copy [IN] [OUTPATH]"`
 
 This other example will copy the source files that are missing in the folder of processed files, with the same names, to another folder to allow processing of missing files separately (when Video2X failed for a fraction of the frames to process the failed ones afterwards - `cmd.exe /c` was still needed due to a limitation in the batch file processor which cannot handle IF / FOR / REM in a CALL command):
+
 `easybatchprocess "C:\Temp\original" *.png "C:\Temp\missing" "cmd.exe /c if not exist ""C:\Temp\processed\[INFILE]"" copy [IN] [OUT]"`
 
 ## Full usage ##
