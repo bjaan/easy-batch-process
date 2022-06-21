@@ -2,9 +2,9 @@
 
 ## Introduction ##
 
-Run a command against a set of files filter by type, which are searched recursively in a folder of your choice.
+Run a command against a set of files filtered by type, which are searched recursively in a folder of your choice.
 
-It calculates the relative output folder path and the output file folder is automatically created.
+It determines the relative output folder path which is automatically created, and allows you to customize the command for each file.
 
 Example: re-encode a folder of Matroska video files for all seasons of the fictional The Night Warriors show into HEVC using FFMPEG:
 
@@ -32,7 +32,7 @@ This other example will copy the source files that are missing in the folder of 
 
 `easybatchprocess "C:\Temp\original" *.png "C:\Temp\missing" "cmd.exe /c if not exist ""C:\Temp\processed\[INFILE]"" copy [IN] [OUT]"`
 
-This is example is handy to copy a number of files sitting a subfolder, like subtitle files where the parent folder is match the video file:
+This is example is handy to copy a number of files sitting a sub-folder, like subtitle files where the parent folder is matching the video file name:
 
 `easybatchprocess.bat C:\Temp\Subs 2_English.srt C:\Temp\Subs2 "copy [IN] ""[OUTROOT]\[INPARENT].en.srt"""`
 
