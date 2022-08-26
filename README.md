@@ -36,11 +36,15 @@ This is example is handy to copy a number of files sitting a sub-folder, like su
 
 `easybatchprocess.bat C:\Temp\Subs 2_English.srt C:\Temp\Subs2 "copy [IN] ""[OUTROOT]\[INPARENT].en.srt"""`
 
+This is a useful one when you want to run DUMPBIN.EXE /EXPORTS against a folder of .lib-files and create a folder with .txt files with the output of each command, to search through
+
+`easybatchprocess.bat C:\Temp\lib *.lib "C:\Temp\libexports" "dumpbin /EXPORTS [IN]" TXT` (you run this from the Visual Studio tools command prompt)
+
 ## Full usage ##
 
 ```
-easybatchprocess.bat folder_to_search files_to_search output_path command_to_run
-  folder_to_search: search for files recursively trough this folder: e.g. c:\Temp\Input
+easybatchprocess folder_to_search files_to_search output_path command_to_run [console_output]
+  folder_to_search: search for files recursively trough this folder: e.g. c:\Temp
   files_to_search: search for file types e.g. *.* or *.mkv
                 or specific names or patterns 2_English.srt or *English.srt
   output_path: output path for files found: e.g. C:\Temp\Output
@@ -52,7 +56,13 @@ easybatchprocess.bat folder_to_search files_to_search output_path command_to_run
              [INPARENT] parent folder name of file that is found: e.g. Season1
              [OUTPATH] path where the output file created: output_path + relative path to the folder_to_search: e.g.  C:\Temp\Output\Season1\
              [INFILE] file name found: e.g. video1.mkv
+             [INNAME] file name found without file extension: e.g. video1
              [INROOT] same as folder_to_search
              [OUTROOT] same as output_path
+  console_output: optional: define console output redirection
+                  when not defined: text goes to console (CON)
+                  when equal to TXT: replaced by following pattern using tokens: "[OUTPATH][INFILE].txt"
+                                                                                 which results in "C:\Temp\Output\Season1\video1.txt"
+                supports the tokens above mentioned at command_to_run
 ```
 
