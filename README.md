@@ -28,17 +28,24 @@ This more elaborate example will copy all of the currently logged user's picture
 
 `easybatchprocess %USERPROFILE% "*.jpg;*.png;*.bmp;*.jpeg" E:\ "copy [IN] [OUTPATH]"`
 
+
 This other example will copy the source files that are missing in the folder of processed files, with the same names, to another folder to allow processing of missing files separately (when Video2X failed for a fraction of the frames to process the failed ones afterwards - `cmd.exe /c` was still needed due to a limitation in the batch file processor which cannot handle IF / FOR / REM in a CALL command):
 
 `easybatchprocess "C:\Temp\original" *.png "C:\Temp\missing" "cmd.exe /c if not exist ""C:\Temp\processed\[INFILE]"" copy [IN] [OUT]"`
+
 
 This is example is handy to copy a number of files sitting a sub-folder, like subtitle files where the parent folder is matching the video file name:
 
 `easybatchprocess.bat C:\Temp\Subs 2_English.srt C:\Temp\Subs2 "copy [IN] ""[OUTROOT]\[INPARENT].en.srt"""`
 
-This is a useful one when you want to run DUMPBIN.EXE /EXPORTS against a folder of .lib-files and create a folder with .txt files with the output of each command, to search through
+
+This is a useful example when you want to run DUMPBIN.EXE /EXPORTS against a folder of .lib-files and create a folder with .txt files with the output of each command, to search through:
 
 `easybatchprocess.bat C:\Temp\lib *.lib "C:\Temp\libexports" "dumpbin /EXPORTS [IN]" TXT` (you run this from the Visual Studio tools command prompt)
+
+This is another useful example, when you want to resize an entire folder of images to specific resolution, using ImageMagick: add the folder with magick.exe first the PATH variable like: `set PATH=%PATH%;C:\Program Files\ImageMagick-7.1.0-Q16-HDRI`:
+
+`easybatchprocess.bat C:\Temp\UpscaleResume\Upscaled *.png C:\Temp\UpscaleResume\Reduced ""C:\Program Files\ImageMagick-7.1.0-Q16-HDRI\magick.exe" convert [IN] -resize 1500x1080 [OUT]"`
 
 ## Full usage ##
 
@@ -62,7 +69,7 @@ easybatchprocess folder_to_search files_to_search output_path command_to_run [co
   console_output: optional: define console output redirection
                   when not defined: text goes to console (CON)
                   when equal to TXT: replaced by following pattern using tokens: "[OUTPATH][INFILE].txt"
-                                                                                 which results in "C:\Temp\Output\Season1\video1.txt"
+                                     which results in "C:\Temp\Output\Season1\video1.txt"
                 supports the tokens above mentioned at command_to_run
 ```
 

@@ -131,7 +131,7 @@ echo              [OUTROOT] same as output_path
 echo   console_output: optional: define console output redirection
 echo                   when not defined: text goes to console (CON)
 echo                   when equal to TXT: replaced by following pattern using tokens: "[OUTPATH][INFILE].txt"
-echo                                                                                  which results in "C:\Temp\Output\Season1\video1.txt"
+echo                                      which results in "C:\Temp\Output\Season1\video1.txt"
 echo                 supports the tokens above mentioned at command_to_run
 
 :end
