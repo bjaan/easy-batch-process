@@ -39,13 +39,21 @@ This is example is handy to copy a number of files sitting a sub-folder, like su
 `easybatchprocess.bat C:\Temp\Subs 2_English.srt C:\Temp\Subs2 "copy [IN] ""[OUTROOT]\[INPARENT].en.srt"""`
 
 
-This is a useful example when you want to run DUMPBIN.EXE /EXPORTS against a folder of .lib-files and create a folder with .txt files with the output of each command, to search through:
+This is a useful example when you want to run DUMPBIN.EXE /EXPORTS against a folder of .lib-files, or DUMPBIN.EXE /SYMBOLS against a folder of .obj-files, and create a folder with .txt files with the output of each command, to search through. You run this from the Visual Studio tools command prompt:
 
-`easybatchprocess.bat C:\Temp\lib *.lib "C:\Temp\libexports" "dumpbin /EXPORTS [IN]" TXT` (you run this from the Visual Studio tools command prompt)
+`easybatchprocess.bat C:\Temp\lib *.lib "C:\Temp\libexports" "dumpbin /EXPORTS [IN]" TXT`
 
-This is another useful example, when you want to resize an entire folder of images to specific resolution, using ImageMagick: add the folder with magick.exe first the PATH variable like: `set PATH=%PATH%;C:\Program Files\ImageMagick-7.1.0-Q16-HDRI`:
+`easybatchprocess.bat C:\Temp\amd64 *.obj "C:\Temp\amd64exports" "dumpbin /SYMBOLS [IN]" TXT`
 
-`easybatchprocess.bat C:\Temp\UpscaleResume\Upscaled *.png C:\Temp\UpscaleResume\Reduced ""C:\Program Files\ImageMagick-7.1.0-Q16-HDRI\magick.exe" convert [IN] -resize 1500x1080 [OUT]"`
+
+This is another useful example, when you want to resize an entire folder of images to specific resolution, using ImageMagick: add the folder with `magick.exe` first the PATH variable like: `set PATH=%PATH%;C:\Program Files\ImageMagick-7.1.0-Q16-HDRI`:
+
+`easybatchprocess.bat C:\Temp\UpscaleResume\Upscaled *.png C:\Temp\UpscaleResume\Reduced "magick.exe convert [IN] -resize 1500x1080 [OUT]"`
+
+
+To convert a folder of FLAC-files to MP3 using FFMPEG: add the folder with `ffmpeg.exe` first the PATH variable like: `set PATH=%PATH%;C:\Apps\ffmpeg-2022-12-21-git-eef763c705-full_build\bin`:
+
+`easybatchprocess.bat C:\Temp\flacs *.flac C:\Temp\mp3s "ffmpeg.exe -i [IN] -ab 320k -f mp3 "[OUTPATH][INFILE].mp3""`
 
 ## Full usage ##
 

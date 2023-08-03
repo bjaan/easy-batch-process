@@ -70,7 +70,7 @@ FOR /f "delims=" %%f IN ('dir /b /s "%folder_to_search%\%1"') DO (
   set folder=%%~dpf
   set parentfolder=%%~dpf
   set parentfolder=!parentfolder:~0,-1!
-  for %%P in (!parentfolder!) do set parentfolder=%%~nxP
+  for %%P in ("!parentfolder!") do set parentfolder=%%~nP
   set FileName="!fullpath!"
   set FilePath="!folder!"
   set ParentFolderName=!parentfolder!
@@ -90,7 +90,7 @@ FOR /f "delims=" %%f IN ('dir /b /s "%folder_to_search%\%1"') DO (
   call set "cmd=%%cmd:[INROOT]=!folder_to_search!%%"
   call set "cmd=%%cmd:[OUTROOT]=!output_path!%%"
   call set "output_folder=!OutputPath!"
-  if not exist "!output_folder!" mkdir !output_folder!
+  if not exist "!output_folder!" mkdir "!output_folder!"
   set output=!output_redirect!
   if "!output_redirect!" NEQ "CON" (
     if "!output_redirect!"=="TXT" ( set output="[OUTPATH][INNAME].txt" )
